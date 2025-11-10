@@ -2,7 +2,7 @@
 # This file helps Railway understand how to deploy the backend
 
 [build]
-  command = "cd backend && npm install"
+  builder = "NIXPACKS"
 
 [deploy]
   startCommand = "cd backend && npm start"

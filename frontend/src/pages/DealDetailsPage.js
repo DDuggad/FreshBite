@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../utils/api';
 
@@ -9,11 +9,7 @@ const DealDetailsPage = () => {
   const [error, setError] = useState(null);
   const [claiming, setClaiming] = useState(false);
 
-  useEffect(() => {
-    fetchDeal();
-  }, [id]);
-
-  const fetchDeal = async () => {
+  const fetchDeal = useCallback(async () => {
     try {
       const response = await api.get(`/api/deals/${id}`);
       setDeal(response.data);
@@ -22,7 +18,11 @@ const DealDetailsPage = () => {
       setError('Failed to fetch deal details');
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchDeal();
+  }, [fetchDeal]);
 
   const claimDeal = async () => {
     if (claiming) return;
